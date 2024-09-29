@@ -6,6 +6,7 @@ from .engine import Base
 
 
 class User(Base):
+    """this is a raw model of user will be changed in future"""
     __tablename__ = "users"
    # posts: Mapped[list['Post']] = relationship(back_populates='user')
     name:Mapped[str] = mapped_column(String(64))
@@ -20,6 +21,7 @@ class User(Base):
 
 
 class Post(Base):
+    """raw model of post  will be changed in future and comment will be added later"""
     __tablename__ = "posts"
     title: Mapped[str] = mapped_column(String(50))
     description:Mapped[str] = mapped_column()

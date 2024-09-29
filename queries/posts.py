@@ -29,5 +29,30 @@ class PostQueries:
             if post_data is None:
                 raise exceptions.PostNotFound
         return post_data
+    @staticmethod
+    async def delete_post(db_session: AsyncSession,post_id:UUID)->None:
+        query = sa.delete(Post).where(Post.id == post_id)
+        async with db_session as session:
+            await session.execute(query)
+            await session.commit()
+    @staticmethod
+    async def update_post(db_session: AsyncSession,
+                          post,)->Post:
+        query = sa.select(Post).where(Post.id == post.id)
+        update_query = (sa.update(Post)
+                        .where(Post.id == post.id)
+                        .values(title = post.title, description = post.description))
+        async with db_session as session:
+            post_data = await session.scalar(query)
+
+            if post_data is None:
+                raise exceptions.PostNotFound
+            await session.execute(update_query)
+            await session.commit()
+            post_data.title = post.title
+            post_data.description = post.description
+            return post_data
+
+
 
 
