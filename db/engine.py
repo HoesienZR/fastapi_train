@@ -4,7 +4,6 @@ from sqlalchemy.orm import DeclarativeBase,MappedAsDataclass
 from sqlalchemy.ext.asyncio import create_async_engine,async_sessionmaker
 
 SQLALCHEMY_DATABASE_URL = "sqlite+aiosqlite:///./sql_app.db"
-# SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
 
 ENGINE = create_async_engine(SQLALCHEMY_DATABASE_URL,
                              echo=True,
