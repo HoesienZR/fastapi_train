@@ -32,7 +32,7 @@ async def show_category(category:str):
 @router.post('/create_post',status_code=status.HTTP_201_CREATED)
 async def create_post(
         db_session : Annotated[AsyncSession,Depends(get_db)],
-        data:post_input.PostInput=Body()
+        data:post_input.CreatePostInput=Body()
         )->post_output.PostOutput:
     """this router get title and description form user and make connection
      to data base then create post and return response of post  """
