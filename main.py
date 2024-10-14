@@ -3,7 +3,7 @@ from fastapi import FastAPI
 
 import uvicorn
 
-from routres.blog import router as blog_router
+from routres.post import router as blog_router
 
 
 

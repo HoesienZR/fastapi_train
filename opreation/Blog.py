@@ -39,8 +39,13 @@ class BlogOperation:
         return post_output.PostOutput(title = post.title,
                                       id = post.id,
                                       description=post.description,
-                                      category = Post.category)
-
+                                      category = post.category)
+     async def get_post_category(self,category:str)->post_output.PostsOutPut:
+        posts = await PostQueries.get_categories_of_posts(db_session=self.db_session,category=category)
+        return post_output.PostsOutPut(posts=posts)
+     async def get_posts(self,)->post_output.PostsOutPut:
+        posts = await PostQueries.get_all_posts(db_session=self.db_session)
+        return post_output.PostsOutPut(posts=posts)
 
 
 

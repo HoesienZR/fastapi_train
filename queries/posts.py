@@ -39,20 +39,31 @@ class PostQueries:
     async def update_post(db_session: AsyncSession,
                           post,)->Post:
         query = sa.select(Post).where(Post.id == post.id)
-        update_query = (sa.update(Post)
-                        .where(Post.id == post.id)
-                        .values(title = post.title, description = post.description))
         async with db_session as session:
             post_data = await session.scalar(query)
+            update_values = {}
+            if post.title is not None:
+                update_values['title'] = post.title
+            if post.description is not None:
+                update_values['description'] = post.description
+            if post.category is not None:
+                update_values['category'] = post.category
 
-            if post_data is None:
-                raise exceptions.PostNotFound
+            update_query = (sa.update(Post)
+                            .where(Post.id == post.id)
+                            .values(**update_values))
+
             await session.execute(update_query)
             await session.commit()
-            post_data.title = post.title
-            post_data.description = post.description
+            post_data.title = post.title if post.title is not None else post_data.title
+            post_data.description = post.description if post.description is not  None else post_data.description
+
+            post_data.category = post.category if post.category is not None else post_data.category
             return post_data
-
-
-
-
+    @staticmethod
+    async def get_categories_of_posts(db_session: AsyncSession,category):
+        query = sa.select(Post).where(Post.category == category)
+        async with db_session as session :
+            result = await session.execute(query)
+            posts =  result.scalars().all()
+        return posts

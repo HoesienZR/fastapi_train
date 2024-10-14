@@ -14,7 +14,8 @@ class PostInput(BasePostInput):
     """schema of post when it created """
     title:str
     description:str
+    category:PostCategory|None
 class CreatePostInput(BaseModel):
     title:str
     description:str
-    category:PostCategory
+    category:PostCategory|None
