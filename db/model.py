@@ -24,7 +24,7 @@ class Post(Base):
     description:Mapped[str] = mapped_column()
   #  user_id : Mapped[UUID] = mapped_column()
    # user:Mapped["User"] = relationship(back_populates='posts')
-    comments: Mapped['Comment'] = relationship(back_populates='comments')
+    comments: Mapped[list['Comment']] = relationship(back_populates='post',init=False)
     category:Mapped[str] = mapped_column(Enum('Science','Computer','Mechanic','Others',name='category'),default='Others')
     id: Mapped[UUID] = mapped_column(primary_key=True, default_factory=uuid4)
 
@@ -33,8 +33,8 @@ class Post(Base):
 class Comment(Base):
     __tablename__ = 'comments'
     description:  Mapped[str] = mapped_column()
-    post_id: Mapped[UUID] = mapped_column()
-    post: Mapped['Post'] = relationship(back_populates='posts')
+    post_id: Mapped[UUID] = mapped_column(ForeignKey('posts.id'),index=True)
+    post: Mapped['Post'] = relationship(back_populates='comments')
     date_created: Mapped[datetime] = mapped_column(DateTime,default=datetime)
     id: Mapped[UUID] = mapped_column(primary_key=True, default_factory=uuid4)
 

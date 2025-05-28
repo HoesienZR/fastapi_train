@@ -11,7 +11,7 @@ class BlogOperation:
 
      async def create_post(self,post:post_input.CreatePostInput)->post_output.PostOutput:
         post = Post(title = post.title,
-                    description = post.description
+                    description = post.description,
         )
         await PostQueries.create_post(post=post,db_session=self.db_session)
         return post_output.PostOutput(

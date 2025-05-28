@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 import uvicorn
 import logging
-from routres.blog import router as blog_router
+from routres.post import router as post_router
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ async def lifespan(app: FastAPI):
     logger.info("Shutting down: Disposing database engine")
     await ENGINE.dispose()
 app = FastAPI(lifespan=lifespan)
-app.include_router(blog_router,prefix='/blog')
+app.include_router(post_router,prefix='/blog')
 
 if __name__ == '__main__':
 
