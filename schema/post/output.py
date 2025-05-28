@@ -11,6 +11,6 @@ class PostOutput(BaseModel):
     title:str
     description:str
     id:UUID
-    category:PostCategory|None
+    category:str|None
 class PostsOutPut(BaseModel):
     posts:list[Post]

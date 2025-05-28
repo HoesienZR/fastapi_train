@@ -12,14 +12,15 @@ class BlogOperation:
      async def create_post(self,post:post_input.CreatePostInput)->post_output.PostOutput:
         post = Post(title = post.title,
                     description = post.description,
+                    category=post.category
         )
-        await PostQueries.create_post(post=post,db_session=self.db_session)
+        new_post:Post = await PostQueries.create_post(post=post,db_session=self.db_session)
+        print(str(post.category))
         return post_output.PostOutput(
-                          #user_id = post.user_id,
-                          title=post.title,
-                          description=post.description,
-                          id = post.id,
-                          category= post.category
+                          title=new_post.title,
+                          description=new_post.description,
+                          category= new_post.category,
+                            id=new_post.id
         )
      async def get_all_posts(self):
          posts = await PostQueries.get_all_posts(db_session=self.db_session)
