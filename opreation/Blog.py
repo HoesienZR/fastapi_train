@@ -1,3 +1,4 @@
+from numba.scripts.generate_lower_listing import description
 from sqlalchemy.ext.asyncio import AsyncSession
 from schema import post_input,post_output
 from queries.posts import PostQueries
@@ -9,10 +10,8 @@ class BlogOperation:
         self.db_session = db_session
 
      async def create_post(self,post:post_input.CreatePostInput)->post_output.PostOutput:
-        post = Post(#user_id=uuid4(),
-                    title=post.title,
-                    description=post.description,
-                    category = post.category
+        post = Post(title = post.title,
+                    description = post.description
         )
         await PostQueries.create_post(post=post,db_session=self.db_session)
         return post_output.PostOutput(

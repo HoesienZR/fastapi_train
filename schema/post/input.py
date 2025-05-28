@@ -9,7 +9,7 @@ class PostCategory(str,Enum):
     Others   =  'Others'
 class BasePostInput(BaseModel):
     """schema of post when it will be retrieved """
-    id:UUID
+    id:int
 class PostInput(BasePostInput):
     """schema of post when it created """
     title:str

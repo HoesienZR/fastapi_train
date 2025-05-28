@@ -10,5 +10,5 @@ class PostOutput(BaseModel):
     """output schema of post that our api routers return """
     title:str
     description:str
-    id:UUID
+    id:int
     category:PostCategory
