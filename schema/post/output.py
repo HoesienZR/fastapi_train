@@ -8,9 +8,9 @@ from .input import PostCategory
 
 class PostOutput(BaseModel):
     """output schema of post that our api routers return """
+    id: UUID
     title:str
     description:str
-    id:UUID
-    category:str|None
+    category:str
 class PostsOutPut(BaseModel):
-    posts:list[Post]
+    posts:list[PostOutput]

@@ -15,7 +15,6 @@ class BlogOperation:
                     category=post.category
         )
         new_post:Post = await PostQueries.create_post(post=post,db_session=self.db_session)
-        print(str(post.category))
         return post_output.PostOutput(
                           title=new_post.title,
                           description=new_post.description,

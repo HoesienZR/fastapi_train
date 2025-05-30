@@ -1,8 +1,10 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from db.model import Post
+from db.model import Post,Comment
 from uuid import UUID
 import exceptions
 import sqlalchemy as sa
+from sqlalchemy.orm import defer
+from queries import transform_uuid
 
 class PostQueries:
 
@@ -38,7 +40,8 @@ class PostQueries:
     @staticmethod
     async def update_post(db_session: AsyncSession,
                           post,)->Post:
-        query = sa.select(Post).where(Post.id == post.id)
+        post_uuid = transform_uuid(post.id)
+        query = sa.select(Post).where(Post.id == post_uuid)
         async with db_session as session:
             post_data = await session.scalar(query)
             update_values = {}
@@ -62,8 +65,8 @@ class PostQueries:
             return post_data
     @staticmethod
     async def get_categories_of_posts(db_session: AsyncSession,category):
-        query = sa.select(Post).where(Post.category == category)
+        query = (sa.select(Post.id,Post.title,Post.description,Post.category).where(Post.category == category))
         async with db_session as session :
             result = await session.execute(query)
-            posts =  result.scalars().all()
+            posts =  result.mappings().all()
         return posts

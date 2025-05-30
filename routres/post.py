@@ -1,16 +1,14 @@
-import uuid
-from uuid import UUID
+from routres import  UUID ,Annotated
 
-from typing import Annotated
+from routres import APIRouter,Body,Depends,status
 
+from routres import AsyncSession
 
-from fastapi import APIRouter,Body,Depends,status
-from sqlalchemy.ext.asyncio import AsyncSession
+from routres import get_db
 
-from db.engine import get_db
-from schema import post_input,post_output
-from opreation.Blog import BlogOperation
+from routres import post_input,post_output
 
+from routres import BlogOperation
 router = APIRouter()
 
 @router.get("/post/{item-id}",status_code=status.HTTP_200_OK)

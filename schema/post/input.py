@@ -2,6 +2,7 @@ from pydantic import BaseModel
 
 from uuid import UUID
 from enum import Enum
+
 class PostCategory(str,Enum):
     Science  = 'Science'
     Computer = 'Computer'
@@ -9,7 +10,7 @@ class PostCategory(str,Enum):
     Others   =  'Others'
 class BasePostInput(BaseModel):
     """schema of post when it will be retrieved """
-    id:int
+    id:UUID
 class PostInput(BasePostInput):
     """schema of post when it created """
     title:str
@@ -19,3 +20,8 @@ class CreatePostInput(BaseModel):
     title:str
     description:str
     category:PostCategory|None
+class UpdatePostInput(BasePostInput):
+    title:str|None
+    description:str|None
+    category:PostCategory|None
+

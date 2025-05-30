@@ -26,7 +26,7 @@ class Post(Base):
    # user:Mapped["User"] = relationship(back_populates='posts')
     comments: Mapped[list['Comment']] = relationship(back_populates='post',init=False)
     category:Mapped[str] = mapped_column(Enum('Science','Computer','Mechanic','Others',name='category'),default='Others')
-    id: Mapped[UUID] = mapped_column(primary_key=True,autoincrement=True,init=False)
+    id: Mapped[UUID] = mapped_column(primary_key=True,default_factory=uuid4,init=False)
 
 
 
