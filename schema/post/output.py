@@ -14,3 +14,6 @@ class PostOutput(BaseModel):
     category:str
 class PostsOutPut(BaseModel):
     posts:list[PostOutput]
+
+class PostPagination( PostsOutPut):
+    count : int

@@ -21,18 +21,20 @@ class BlogOperation:
                           category= new_post.category,
                             id=new_post.id
         )
+
      async def get_all_posts(self):
          posts = await PostQueries.get_all_posts(db_session=self.db_session)
          return posts
-     async def get_post(self,post_id:UUID)->post_output.PostOutput:
+     async def get_post(self,post_id:str)->post_output.PostOutput:
          post_data = await PostQueries.get_post(db_session=self.db_session,post_id=post_id)
          return post_output.PostOutput(title = post_data.title,
                                        description = post_data.description,
                                        id = post_data.id,
                                        category = post_data.category
                                        )
-     async def delete_post(self,post_id:UUID)->None:
-         await PostQueries.delete_post(db_session=self.db_session,post_id=post_id)
+     async def delete_post(self,raw_post_id:str)->None:
+
+         await PostQueries.delete_post(db_session=self.db_session,raw_post_id=raw_post_id)
      async def update_post(self,post:post_input.PostInput)->post_output.PostOutput:
         post = await PostQueries.update_post(db_session=self.db_session,post=post)
         return post_output.PostOutput(title = post.title,
@@ -42,9 +44,9 @@ class BlogOperation:
      async def get_post_category(self,category:str)->post_output.PostsOutPut:
         posts = await PostQueries.get_categories_of_posts(db_session=self.db_session,category=category)
         return post_output.PostsOutPut(posts=posts)
-     async def get_posts(self,)->post_output.PostsOutPut:
-        posts = await PostQueries.get_all_posts(db_session=self.db_session)
-        return post_output.PostsOutPut(posts=posts)
+     async def get_posts(self,limit,offset)->post_output.PostPagination:
+        posts,counts = await PostQueries.get_all_posts(db_session=self.db_session,limit=limit,offset=offset)
+        return post_output.PostPagination(posts=posts,count=counts)
 
 
 
